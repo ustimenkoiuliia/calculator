@@ -1,8 +1,5 @@
 let result = document.querySelector('#result');
 let expression = document.querySelector('#expression')
-let btnAc = document.querySelector('.btn-ac')
-let btnPlusMinus = document.querySelector('.btn-plus-minus')
-
 
 let buttons = document.querySelectorAll('.btn');
 for (let button of buttons) {
@@ -35,7 +32,7 @@ function percentage(number1, number2) {
   return (number1 / 100) * number2;
 }
 
-function showOnScreen(pressedButton) {
-  return screen.innerHtml = pressedButton.textContent;
+function showOnScreen(e) {
+ expression.innerHtml = e.target.textContent;
 }
 
