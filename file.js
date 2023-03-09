@@ -7,7 +7,6 @@ const screen = document.querySelector('.screen')
 let numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.'];
 let operators = ['+', '-', '/', 'X', '%'];
 
-
 let btnReset = document.querySelector('.btn-ac');
 btnReset.addEventListener('click', reset);
 
@@ -30,20 +29,31 @@ for (let button of buttons) {
     
     if (numbers.includes(value)) {
       if (number2 === '' && operator === '') {
-        number1 += value;
-        screen.textContent = number1;
+        if (value === '.' && number1.includes('.')) {
+          number1 += '';
+          screen.textContent = number1;
+        } else {
+          number1 += value;
+          screen.textContent = number1;
+        }
+
       } else if (number1 !== '' && number2 !== '' && finish) {  
         number2 = value;
         finish = false;
         screen.textContent = number1 + operator + number2;
-      } else {
+      } else if (value === '.' && number2.includes('.')) {
+        number2 += '';
+        screen.textContent = number2;
+      }
+      else {
         number2 += value;
         screen.textContent = number1 + operator + number2;
-
       }
       console.log(number1, number2, operator)
       return;
     }
+
+
     if (operators.includes(value)) {
       operator = value;
       screen.textContent = number1 + operator;
@@ -81,6 +91,7 @@ for (let button of buttons) {
       screen.textContent = number1;
       console.log(number1, number2, operator)
     }
+
   })
 }
 
