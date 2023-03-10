@@ -5,10 +5,9 @@ let finish = false;
 const screen = document.querySelector('.screen')
 
 let numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.'];
-let operators = ['+', '-', '/', 'X', '%'];
+let operators = ['+', '-', '/', 'X', '%', '+/-'];
 
-let btnReset = document.querySelector('.btn-ac');
-btnReset.addEventListener('click', reset);
+document.querySelector('.btn-ac').addEventListener('click', reset);
 
 function reset() {
    number1 = '';
@@ -18,14 +17,42 @@ function reset() {
   screen.textContent = 0;
 }
 
+document.querySelector('.plus-minus').addEventListener('click', function () {
+  number1 = -1 * number1;
+})
+screen.textContent = number1;
+
+
 function percentage() {
   return (number1 / 100) * number2;
 }
 
+function add() {
+  number1 = (+number1) + (+number2);
+}
+function divide() {
+  if (number2 === '0') {
+    screen.textContent = 'Error';
+    number1 = '';
+    number2 = '';
+    operator = '';
+    return;
+  }
+  number1 = number1 / number2;
+}
+function minus() {
+  number1 = number1 - number2;
+}
+function mul() {
+  number1 = number1 * number2;
+}
+
 let buttons = document.querySelectorAll('.btn');
+
 for (let button of buttons) {
   button.addEventListener('click', function (e) {
-    const value = button.textContent;
+
+  const value = this.textContent;
     
     if (numbers.includes(value)) {
       if (number2 === '' && operator === '') {
@@ -49,43 +76,40 @@ for (let button of buttons) {
         number2 += value;
         screen.textContent = number1 + operator + number2;
       }
-      console.log(number1, number2, operator)
       return;
     }
 
 
     if (operators.includes(value)) {
-      operator = value;
-      screen.textContent = number1 + operator;
-      console.log(number1, number2, operator)
-      return;
+      if (value == '+/-') {
+        operator = value;
+        screen.textContent = number1;
+      } else {
+        operator = value;
+        screen.textContent = number1 + operator;
+        return;
+      }
+
     }
 
     if (value === '=') {
       if (number2 === '') number2 = number1;
       switch (operator) {
         case '+':
-          number1 = (+number1) + (+number2);
+          add();
           break;
         case '-':
-          number1 = number1 - number2;
+          minus()
           break;
         case 'X':
-          number1 = number1 * number2;
+          mul();
           break;
         case '/':
-          if (number2 === '0') {
-            screen.textContent = 'Error';
-            number1 = '';
-            number2 = '';
-            operator = '';
-            return;
-          }
-          number1 = number1 / number2;
+          divide();
           break;
         case '%':
           number1 = percentage(number1, number2);
-          break;   
+          break;  
       }
       finish = true;
       screen.textContent = number1;
@@ -94,4 +118,6 @@ for (let button of buttons) {
 
   })
 }
+
+
 

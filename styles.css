@@ -6,6 +6,8 @@
   border-radius: 25px;
   display: flex;
   flex-direction: column;
+  box-shadow: 1px 1px 25px -1px rgba(0,0,0,0.48);
+  
 }
 
 .screen{
@@ -53,7 +55,7 @@
 
 .btn:hover{
   cursor: pointer;
-  box-shadow: 1px 1px 25px -1px rgba(0,0,0,0.48);;
+  box-shadow: 1px 1px 25px -1px rgba(0,0,0,0.48);
 }
 
 .btn-zero{
