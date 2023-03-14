@@ -34,13 +34,7 @@ function add() {
   number1 = (+number1) + (+number2);
 }
 function divide() {
-  if (number2 === '0') {
-    screen.textContent = 'Error';
-    number1 = '';
-    number2 = '';
-    operator = '';
-    return;
-  }
+
   number1 = number1 / number2;
 }
 function minus() {
@@ -65,6 +59,13 @@ function calc() {
       mul();
       break;
     case '/':
+      if (number2 === '0') {
+        screen.textContent = 'Error';
+        number1 = '';
+        number2 = '';
+        operator = '';
+        return;
+      }
       divide();
       break;
     case '%':
@@ -76,10 +77,7 @@ function calc() {
   console.log(number1, number2, operator)
 }
 
-// фнукция набора с клавиатуры компьютера
-
-function keybord(e) {
-  let value = e.key;
+function createExpression(value) {
   if (numbers.includes(value)) {
     if (number2 === '' && operator === '') {
       if (value === '.' && number1.includes('.')) {
@@ -105,7 +103,6 @@ function keybord(e) {
     return;
   }
 
-
   if (operators.includes(value)) {
     if (value == '+/-') {
       operator = value;
@@ -117,12 +114,22 @@ function keybord(e) {
     }
 
   }
+}
 
-  if (value === 'Enter') {
+// фнукция набора с клавиатуры компьютера
+
+function keybord(e) {
+  let value1 = e.key;
+
+ createExpression(value1)
+
+
+
+  if (value1 === 'Enter') {
     calc()
   }
 
-  if (value === 'ArrowLeft') {
+  if (value1 === 'ArrowLeft') {
     reset()
   }
 
@@ -134,47 +141,11 @@ let buttons = document.querySelectorAll('.btn');
 for (let button of buttons) {
   button.addEventListener('click', function (e) {
 
-  const value = e.target.textContent;
+  const value2 = e.target.textContent;
     
-    if (numbers.includes(value)) {
-      if (number2 === '' && operator === '') {
-        if (value === '.' && number1.includes('.')) {
-          number1 += '';
-          screen.textContent = number1;
-        } else {
-          number1 += value;
-          screen.textContent = number1;
-        }
+ createExpression(value2)
 
-      } else if (number1 !== '' && number2 !== '' && finish) {  
-        number2 = value;
-        finish = false;
-        screen.textContent = number1 + operator + number2;
-      } else if (value === '.' && number2.includes('.')) {
-        number2 += '';
-        screen.textContent = number2;
-      }
-      else {
-        number2 += value;
-        screen.textContent = number1 + operator + number2;
-      }
-      return;
-    }
-
-
-    if (operators.includes(value)) {
-      if (value == '+/-') {
-        operator = value;
-        screen.textContent = number1;
-      } else {
-        operator = value;
-        screen.textContent = number1 + operator;
-        return;
-      }
-
-    }
-
-    if (value === '=') {
+    if (value2 === '=') {
       calc()
     }
 
